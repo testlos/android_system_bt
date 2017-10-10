@@ -21,6 +21,10 @@ ifeq ($(TARGET_BUILD_VARIANT),eng)
 bluetooth_CFLAGS += -DBLUEDROID_DEBUG
 endif
 
+ifeq ($(BOARD_SPRD_WCNBT_MARLIN),true)
+  bluetooth_CFLAGS += -DSPRD_WCNBT_MARLIN
+endif
+
 bluetooth_CFLAGS += -DUSE_AUDIO_TRACK
 
 bluetooth_CFLAGS += -DEXPORT_SYMBOL="__attribute__((visibility(\"default\")))"

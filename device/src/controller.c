@@ -212,10 +212,12 @@ static future_t *start_up(void) {
 
     page_number++;
   }
+#ifndef SPRD_WCNBT_MARLIN
 #if (BLE_INCLUDED == TRUE)
   // read BLE offload features support from controller
   response = AWAIT_COMMAND(packet_factory->make_ble_read_offload_features_support());
   packet_parser->parse_ble_read_offload_features_response(response, &ble_offload_features_supported);
+#endif
 #endif
 #if (SC_MODE_INCLUDED == TRUE)
   if(ble_offload_features_supported) {
@@ -286,6 +288,7 @@ static future_t *start_up(void) {
     packet_parser->parse_generic_command_complete(response);
   }
 
+#ifndef SPRD_WCNBT_MARLIN
   // read local supported codecs
   if(HCI_READ_LOCAL_CODECS_SUPPORTED(supported_commands)) {
     response = AWAIT_COMMAND(packet_factory->make_read_local_supported_codecs());
@@ -293,6 +296,7 @@ static future_t *start_up(void) {
         response,
         &number_of_local_supported_codecs, local_supported_codecs);
   }
+#endif
 
   readable = true;
   return future_new_immediate(FUTURE_SUCCESS);
